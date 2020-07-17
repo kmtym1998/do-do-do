@@ -1,5 +1,9 @@
 # Ruby on Rails on Docker
 
+
+## 追記内容
+ - 2020/07/17 [テーブルスキーマ記載](https://github.com/kmtym1998/do-do-do#table-schema)
+
 ## Ruby version
  - [.ruby-version](https://github.com/hihats/ruby-on-rails-pg-on-docker/blob/master/.ruby-version)
 
@@ -146,3 +150,30 @@ $ echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
 $ cat /proc/sys/fs/inotify/max_user_watches
 ```
 Dockerfileに組み込みたいが、Privilegedで起動扠せねばならぬ問題があるため、起動時に叩くシェルを作るか
+
+## Table Schema
+モデル名：User
+| カラム名 | データ型 |
+|:--------|:--------|
+| id | int|
+| password | string |
+| name | string |
+
+モデル名：Task
+| カラム名 | データ型 |
+|:--------|:--------|
+| id | int|
+| title | string |
+| deadline | timestamp |
+| priority | int |
+| state | int |
+| memo | string |
+| user_id | int |
+| category_id | int |
+
+モデル名：Category
+| カラム名 | データ型 |
+|:--------|:--------|
+| id | int|
+| title | string |
+| user_id | int |
