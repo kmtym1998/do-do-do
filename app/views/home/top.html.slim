@@ -1,0 +1,40 @@
+html lang="ja"
+    head
+        meta charset="UTF-8"/
+        meta name="viewport" content="width=device-width, initial-scale=1.0"/
+        title Document
+        script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"
+        script src="https://code.jquery.com/jquery-3.5.1.slim.js" integrity="sha256-DrT5NfxfbHvMHux31Lkhxg42LY6of8TaYyK50jnxRnM=" crossorigin="anonymous"
+        / 本番環境 script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"
+    body
+        div#vm-container
+            header
+
+            main
+                h1 タスク一覧
+                div
+                    -@tasks.each do |task|
+                        li= task.title
+
+                div @click="showModal"
+                    | 追加
+
+                / div.modal-close#modal-background
+
+                / div.modal#modal-add_bookmarks 
+                /     div "modal__content" 
+
+            footer
+
+
+    javascript:
+        const vm = new Vue({
+            el: '#vm-container',
+            data: {
+            },
+            methods: {
+                showModal: function(){
+                    console.log('A click has been detected')
+                }
+            }
+        });
