@@ -13,3 +13,86 @@
  *= require_tree .
  *= require_self
  */
+
+
+.task-title{
+    list-style: none;
+    font-size: 19px;
+    background-color: #aaaa;
+    padding: 15px;
+    margin: 5px 0 0 5px;
+    border-radius: 10px;
+}
+.task-title:hover{
+    opacity: 0.5;
+}
+
+.input-task-title{
+    width: 77%;
+    height: 40px;
+    font-size: 19px;
+    border: none;
+    border-bottom: solid 1px #ccc;
+    margin: 10px;
+}
+
+.submit-task-title {
+    color: #000;
+    background-color: #fff100;
+    border: none;
+    border-bottom: 5px solid #ccc100;
+    padding: 10px;
+    width: 100px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+.submit-task-title:hover {
+    margin-top: 3px;
+    color: #000;
+    background: #fff20a;
+    border-bottom: 2px solid #ccc100;
+    transform: translate(0px, 3px);
+}
+
+
+
+
+
+/* modal */
+.modal {
+    display: none;
+    text-align: center;
+    position: absolute;
+    width: 70%;
+    height: auto;
+    padding: 40px;
+    top: 50%;
+    left: 50%;
+    border: 5px solid #dad138;
+    -ms-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    background-color: rgba(238, 238, 238, 0.869);
+    border-radius: 4px;
+    min-height: 450px;
+    z-index: 200;
+}
+.modal-content{
+    text-align: center;
+}
+#modal-background{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+.input-edit, #state, #priority, #job_id{
+    width: 90%;
+    height: 40px;
+    margin: 10px;
+    display: inline-block;
+}

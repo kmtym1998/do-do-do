@@ -1,0 +1,6 @@
+createTask('<%= "#{ @taskTitle }" %>');
+
+function createTask(taskTitle){
+    $('#tasks-container').prepend('<li class="task-title">' + taskTitle + '</li>');
+    vm.taskTitle = '';
+}
