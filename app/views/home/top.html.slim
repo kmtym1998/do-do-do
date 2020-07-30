@@ -13,29 +13,31 @@ html lang="ja"
             main
                 h1 タスク一覧
 
-                = form_with url: home_ajax_create_path do |f|
+                = form_with url: js_ajax_create_path do |f|
                     = f.text_field :taskTitle, class: "input-task-title", "v-model": "newTaskTitle"
                     = f.submit '完了', class: "submit-task-title", "@click": "submitNewTask"
-                
-                / input class="input-task-title" type="text" v-model="taskTitle"
-                / input class="submit-task-title" type="submit" @click="submitNewTask"
 
                 div#tasks-container
                     -@tasks.reverse_each do |task|
-                        li.task-title @click="editTask" = task.title
+                        div.task-container
+                            li.task-title = task.title 
+                            span.hidden.task-id = task.id
+                            span.hidden.deadline = task.deadline
+                            span.hidden.priority = task.priority
+                            span.hidden.state = task.state
+                            span.hidden.memo = task.memo
 
                 div.modal-close#modal-background @click="hideModal"
 
                 div.modal#modal-edit
                     div.modal-content#modal-edit-content
-                        = form_with url: home_ajax_edit_path do |f|
-                            = f.text_field :taskTitle, class: "input-edit", placeholder: "タスク名", "v-model": "edittingTask.taskTitle"
+                        = form_with url: js_ajax_edit_path do |f|
+                            = f.text_field :taskTitle, class: "input-edit", placeholder: "タスク名", "v-model": "edittingTask.title"
                             = f.datetime_field :deadline, class: "input-edit", "v-model": "edittingTask.deadline"
                             = f.select :priority, [["低", 0], ["中", 1], ["高", 2]], "v-model": "edittingTask.priority"
                             = f.select :state, [["未着手", 0], ["着手", 1], ["完了", 2]], "v-model": "edittingTask.state"
                             = f.text_area :memo, class: "input-edit", "v-model": "edittingTask.memo"
                             = f.submit '完了', class: "submit-task-title", "@click": "submitEditedTask"
-
             footer
 
 
@@ -45,7 +47,7 @@ html lang="ja"
             data: {
                 newTaskTitle: '',
                 edittingTask: {
-                    taskTitle: '',
+                    title: '',
                     deadline: '',
                     priority: '',
                     state: '',
@@ -61,14 +63,31 @@ html lang="ja"
                 },
                 submitEditedTask: function(){
                     this.hideModal();
-                    this.edittingTask.taskTitle = '';
+                    this.edittingTask.title = '';
                     this.edittingTask.deadline = '';
                     this.edittingTask.priority = '';
                     this.edittingTask.state = '';
                     this.edittingTask.memo = '';
                 },
-                editTask: function(){
+                editTask: function(e){
+                    const nodeList = e.target.parentNode.querySelectorAll('span'),
+                          title = e.target.parentNode.querySelector('li').textContent,
+                          task_id = Number(nodeList[0].textContent),
+                          deadline = nodeList[1].textContent,
+                          dateString = deadline.substr(0, 10) + 'T' + deadline.substr(11, 5),
+                          priority = Number(nodeList[2].textContent),
+                          state = Number(nodeList[3].textContent),
+                          memo = nodeList[4].textContent;
+
+                    this.edittingTask.title = title;
+                    this.edittingTask.deadline = dateString;
+                    document.getElementById('priority').options[priority].selected = true;
+                    document.getElementById('state').options[state].selected = true;
+                    this.edittingTask.memo = memo;
+
                     this.showModal($('#modal-edit'));
+                    
+
                 },
                 showModal: function($target){
                     $($target).fadeIn();
@@ -82,3 +101,49 @@ html lang="ja"
                 }
             }
         });
+
+        // 本当はDBから取得したタスクのオブジェクトたちをVueで管理したい。このやり方は嫌
+        $(document).on('click', '.task-container', function(e){
+            vm.editTask(e);
+        });
+
+        function getDateString(now){
+            let res = getYearToString(now.getFullYear());
+            res += '-' + getMonthToString(now.getMonth() + 1);
+            res += '-' + getDateToString(now.getDate());
+            res += 'T' + getHourToString(now.getHours());
+            res += ':' + getMinuteToString(now.getMinutes());
+            return res;
+
+            function getYearToString(year){
+                return String(year);
+            }
+            function getMonthToString(month){
+                if(month < 10){
+                    return '0' + String(month);
+                }else{
+                    return String(month);
+                }
+            }
+            function getDateToString(date){
+                if(date < 10){
+                    return '0' + String(date);
+                }else{
+                    return String(date);
+                }
+            }
+            function getHourToString(hour){
+                if(hour < 10){
+                    return '0' + String(hour);
+                }else{
+                    return String(hour);
+                }
+            }
+            function getMinuteToString(min){
+                if(min < 10){
+                    return '0' + String(min);
+                }else{
+                    return String(min);
+                }
+            }
+        }

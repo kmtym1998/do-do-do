@@ -26,6 +26,9 @@
 .task-title:hover{
     opacity: 0.5;
 }
+.hidden{
+    display: none;
+}
 
 .input-task-title{
     width: 77%;
@@ -65,7 +68,7 @@
     position: absolute;
     width: 70%;
     height: auto;
-    padding: 40px;
+    padding: 70px 40px 0px 40px;
     top: 50%;
     left: 50%;
     border: 5px solid #dad138;

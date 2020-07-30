@@ -1,0 +1,12 @@
+createTask('<%= "#{ @newTask.title}" %>', '<%= "#{ @newTask.id}" %>');
+console.log('sss');
+
+function createTask(title, id){
+    $('#tasks-container').prepend(`
+        <div class="task-container">
+            <li class="task-title" @click="editTask">` + title + `</li>
+            <span class="task-id">` + id + `</span>
+        </div>
+    `);
+    vm.newTaskTitle = '';
+}
