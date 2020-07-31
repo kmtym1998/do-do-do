@@ -10,13 +10,9 @@ function deleteTask(task_id){
         
         if(checkingId == task_id){
             taskElements[i].parentNode.removeChild(taskElements[i]);
+            vm.displayFlashMessage('タスクを削除した！', 'success');
+
             return false;
         }
     }
-
-    vm.edittingTask.title = '';
-    vm.edittingTask.deadline = '';
-    vm.edittingTask.priority = '';
-    vm.edittingTask.state = '';
-    vm.edittingTask.memo = '';
 }

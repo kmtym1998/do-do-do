@@ -9,7 +9,6 @@ html lang="ja"
     body
         div#vm-container
             header
-                = flash[:notice]
 
             main
                 h1 タスク一覧
@@ -29,7 +28,7 @@ html lang="ja"
                             span.hidden.memo = task.memo
                             = form_with url: js_ajax_delete_path do |f|
                                 = f.text_field :task_id, class: "hidden"
-                                = f.submit '完了', class: "delete-btn delete-task", "@click": "deleteTask"
+                                = f.submit '削除', class: "delete-btn delete-task", "@click": "deleteTask"
 
                 div.modal-close#modal-background @click="hideModal"
 
@@ -44,12 +43,15 @@ html lang="ja"
                             = f.text_area :memo, class: "input-edit", "v-model": "edittingTask.memo"
                             = f.submit '完了', class: "submit-btn submit-editted-title", "@click": "submitEditedTask"
             footer
+                div#flash-message.hidden 
+                    | {{ flashMessage }}
 
 
     javascript:
         const vm = new Vue({
             el: '#vm-container',
             data: {
+                flashMessage: 'init',
                 newTaskTitle: '',
                 edittingTask: {
                     task_id: '',
@@ -65,7 +67,7 @@ html lang="ja"
                     console.log('A click has been detected')
                 },
                 submitNewTask: function(){
-                    console.log(this.newTaskTitle);
+                    console.log('submitting new task');
                 },
                 submitEditedTask: function(){
 
@@ -118,6 +120,20 @@ html lang="ja"
                     document.getElementById('priority').options[priority].selected = true; // なんかわからんけどバインドできない
                     document.getElementById('state').options[state].selected = true; // なんかわからんけどバインドできない
                     this.edittingTask.memo = memo;
+                },
+                displayFlashMessage: function(message, messageCategory){
+                    const classes = {
+                        success: 'flash-message-success',
+                        fail: 'flash-message-fail'
+                    }
+                    this.flashMessage = message;
+                    $('#flash-message').addClass(classes.messageCategory);
+                    $('#flash-message').removeClass('hidden');
+
+                    setTimeout(function(){
+                        $('#flash-message').removeClass(classes.messageCategory);
+                        $('#flash-message').addClass('hidden');
+                    }, 2000);
                 }
             },
             created: function(){

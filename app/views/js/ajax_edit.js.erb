@@ -24,13 +24,15 @@ function editTask(task_id, title, deadline, priority, state, memo){
             nodeList[3].textContent = state;
             nodeList[4].textContent = memo;
 
+            vm.edittingTask.title = '';
+            vm.edittingTask.deadline = '';
+            vm.edittingTask.priority = '';
+            vm.edittingTask.state = '';
+            vm.edittingTask.memo = '';
+            vm.displayFlashMessage('タスクを編集した！', 'success');
+
             return false;
         }
     }
 
-    vm.edittingTask.title = '';
-    vm.edittingTask.deadline = '';
-    vm.edittingTask.priority = '';
-    vm.edittingTask.state = '';
-    vm.edittingTask.memo = '';
 }

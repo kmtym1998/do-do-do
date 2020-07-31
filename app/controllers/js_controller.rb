@@ -5,11 +5,6 @@ class JsController < ApplicationController
     @task = Task.new
     @newTask = Task.create(title: @taskTitle, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
     
-    if @task.save
-      flash[:notice] = 'This is Flash Message.'
-      redirect_to home_top_path
-    end
-
     render
   end
 
