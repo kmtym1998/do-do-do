@@ -10,7 +10,7 @@ class JsController < ApplicationController
 
   def ajax_before_edit
     @task_id = params[:id]
-    @task = Task.find_by(id: 53)
+    # @task = Task.find_by(id: @task_id)
     
 
     render
@@ -18,16 +18,18 @@ class JsController < ApplicationController
 
   def ajax_edit
     @task_id = params[:task_id]
-    @title = params[:taskTitle]
+    @title = params[:title]
     @deadline = params[:deadline]
     @priority = params[:priority]
     @state = params[:state]
     @memo = params[:memo]
 
     @task = Task.find_by(id: @task_id)
-    @task.title = @task_id
+    @task.title = @title
+    @task.deadline = @deadline
     @task.priority = @priority
     @task.state = @state
+    @task.memo = @memo
     @task.save
     
     render

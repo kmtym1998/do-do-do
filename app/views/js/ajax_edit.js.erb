@@ -8,10 +8,27 @@ editTask(
 );
 
 function editTask(task_id, title, deadline, priority, state, memo){
-    console.log(task_id);
-    console.log(title);
-    console.log(deadline);
-    console.log(priority);
-    console.log(state);
-    console.log(memo);
+    // Vueの嬉しさを全く活かさない書き方😞
+    const taskElements = document.getElementsByClassName('task-container');
+    console.log(taskElements.length);
+    let checkingId = '';
+    for(let i = 0; i < taskElements.length; i++){
+        checkingId = taskElements[i].querySelector('span').textContent;
+        
+        if(checkingId == task_id){
+            const nodeList = taskElements[i].parentNode.querySelectorAll('span');
+            
+            taskElements[i].parentNode.querySelector('li').textContent = title;
+            nodeList[1].textContent = deadline;
+            nodeList[2].textContent = priority;
+            nodeList[3].textContent = state;
+            nodeList[4].textContent = memo;
+        }
+    }
+
+    vm.edittingTask.title = '';
+    vm.edittingTask.deadline = '';
+    vm.edittingTask.priority = '';
+    vm.edittingTask.state = '';
+    vm.edittingTask.memo = '';
 }

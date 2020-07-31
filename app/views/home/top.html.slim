@@ -33,7 +33,7 @@ html lang="ja"
                     div.modal-content#modal-edit-content
                         = form_with url: js_ajax_edit_path do |f|
                             = f.text_field :task_id, "v-model": "edittingTask.task_id"
-                            = f.text_field :taskTitle, class: "input-edit", placeholder: "タスク名", "v-model": "edittingTask.title"
+                            = f.text_field :title, class: "input-edit", placeholder: "タスク名", "v-model": "edittingTask.title"
                             = f.datetime_field :deadline, class: "input-edit", "v-model": "edittingTask.deadline"
                             = f.select :priority, [["低", "0"], ["中", "1"], ["高", "2"]], "v-model": "edittingTask.priority"
                             = f.select :state, [["未着手", "0"], ["着手", "1"], ["完了", "2"]], "v-model": "edittingTask.state"
@@ -68,19 +68,21 @@ html lang="ja"
                     this.edittingTask.priority = $('#priority').val();
                     this.edittingTask.state = $('#state').val();
 
-                    this.edittingTask.title = '';
-                    this.edittingTask.deadline = '';
-                    this.edittingTask.priority = '';
-                    this.edittingTask.state = '';
-                    this.edittingTask.memo = '';
-
                     this.hideModal();
                 },
                 editTask: function(event){
                     this.autoInput(event);
                     this.showModal($('#modal-edit'));
-                    
-
+                },
+                beforeEdit: function(){ // 質問
+                    console.log('beforeEdit is running')
+                    $.ajax({
+                        url: '/js/ajax_before_edit',
+                        data: {
+                            id: 53
+                        },
+                        method: 'POST'
+                    })
                 },
                 showModal: function($target){
                     $($target).fadeIn();
