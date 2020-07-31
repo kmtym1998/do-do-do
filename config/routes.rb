@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   post 'js/ajax_create', to: 'js#ajax_create'
   post 'js/ajax_edit', to: 'js#ajax_edit'
+  post 'js/ajax_delete', to: 'js#ajax_delete'
   post 'js/ajax_before_edit', to: 'js#ajax_before_edit'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

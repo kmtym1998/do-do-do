@@ -4,6 +4,11 @@ class JsController < ApplicationController
 
     @task = Task.new
     @newTask = Task.create(title: @taskTitle, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
+    
+    if @task.save
+      flash[:notice] = 'This is Flash Message.'
+      redirect_to home_top_path
+    end
 
     render
   end
@@ -32,6 +37,14 @@ class JsController < ApplicationController
     @task.memo = @memo
     @task.save
     
+    render
+  end
+
+  def ajax_delete
+    @task_id = params[:task_id]
+    @task = Task.find_by(id: @task_id)
+    @task.destroy
+
     render
   end
 

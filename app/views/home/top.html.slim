@@ -9,13 +9,14 @@ html lang="ja"
     body
         div#vm-container
             header
+                = flash[:notice]
 
             main
                 h1 タスク一覧
 
                 = form_with url: js_ajax_create_path do |f|
                     = f.text_field :taskTitle, class: "input-task-title", "v-model": "newTaskTitle"
-                    = f.submit '完了', class: "submit-task-title", "@click": "submitNewTask"
+                    = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"
 
                 div#tasks-container
                     -@tasks.reverse_each do |task|
@@ -26,19 +27,22 @@ html lang="ja"
                             span.hidden.priority = task.priority
                             span.hidden.state = task.state
                             span.hidden.memo = task.memo
+                            = form_with url: js_ajax_delete_path do |f|
+                                = f.text_field :task_id, class: "hidden"
+                                = f.submit '完了', class: "delete-btn delete-task", "@click": "deleteTask"
 
                 div.modal-close#modal-background @click="hideModal"
 
                 div.modal#modal-edit
                     div.modal-content#modal-edit-content
                         = form_with url: js_ajax_edit_path do |f|
-                            = f.text_field :task_id, "v-model": "edittingTask.task_id"
+                            = f.text_field :task_id, class: "hidden", "v-model": "edittingTask.task_id"
                             = f.text_field :title, class: "input-edit", placeholder: "タスク名", "v-model": "edittingTask.title"
                             = f.datetime_field :deadline, class: "input-edit", "v-model": "edittingTask.deadline"
                             = f.select :priority, [["低", "0"], ["中", "1"], ["高", "2"]], "v-model": "edittingTask.priority"
                             = f.select :state, [["未着手", "0"], ["着手", "1"], ["完了", "2"]], "v-model": "edittingTask.state"
                             = f.text_area :memo, class: "input-edit", "v-model": "edittingTask.memo"
-                            = f.submit '完了', class: "submit-task-title", "@click": "submitEditedTask"
+                            = f.submit '完了', class: "submit-btn submit-editted-title", "@click": "submitEditedTask"
             footer
 
 
@@ -74,6 +78,9 @@ html lang="ja"
                     this.autoInput(event);
                     this.showModal($('#modal-edit'));
                 },
+                deleteTask: function(){
+                    console.log('deleting the task')
+                },
                 beforeEdit: function(){ // 質問
                     console.log('beforeEdit is running')
                     $.ajax({
@@ -88,6 +95,7 @@ html lang="ja"
                     $($target).fadeIn();
                     $('#modal-background').fadeIn();
                     $('body').css('overflow', 'hidden');
+
                 },
                 hideModal: function(){
                     $('.modal').fadeOut();
@@ -111,11 +119,26 @@ html lang="ja"
                     document.getElementById('state').options[state].selected = true; // なんかわからんけどバインドできない
                     this.edittingTask.memo = memo;
                 }
+            },
+            created: function(){
+                // Vueの嬉しさを全く活かさない書き方😞
+                const taskElements = document.getElementsByClassName('task-container');
+                let nodeList;
+                let task_id;
+                for(let i = 0; i < taskElements.length; i++){
+                        
+                    setTimeout(function(){
+                        task_id = taskElements[i].querySelector('span').textContent;
+                        taskElements[i].querySelector('form').childNodes[2].value = task_id;
+                    }, 1); // なんでこうしないといけないかはわからん
+                }
+
             }
         });
 
-        // 本当はDBから取得したタスクのオブジェクトたちをVueで管理したい。このやり方は嫌
-        $(document).on('click', '.task-container', function(event){
+        // Vueの嬉しさを全く活かさない書き方😞
+        // 本当はDBから取得したタスクのオブジェクトたちをVueで管理したい
+        $(document).on('click', '.task-title', function(event){
             vm.editTask(event);
         });
 
