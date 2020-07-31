@@ -32,10 +32,11 @@ html lang="ja"
                 div.modal#modal-edit
                     div.modal-content#modal-edit-content
                         = form_with url: js_ajax_edit_path do |f|
+                            = f.text_field :task_id, "v-model": "edittingTask.task_id"
                             = f.text_field :taskTitle, class: "input-edit", placeholder: "タスク名", "v-model": "edittingTask.title"
                             = f.datetime_field :deadline, class: "input-edit", "v-model": "edittingTask.deadline"
-                            = f.select :priority, [["低", 0], ["中", 1], ["高", 2]], "v-model": "edittingTask.priority"
-                            = f.select :state, [["未着手", 0], ["着手", 1], ["完了", 2]], "v-model": "edittingTask.state"
+                            = f.select :priority, [["低", "0"], ["中", "1"], ["高", "2"]], "v-model": "edittingTask.priority"
+                            = f.select :state, [["未着手", "0"], ["着手", "1"], ["完了", "2"]], "v-model": "edittingTask.state"
                             = f.text_area :memo, class: "input-edit", "v-model": "edittingTask.memo"
                             = f.submit '完了', class: "submit-task-title", "@click": "submitEditedTask"
             footer
@@ -47,6 +48,7 @@ html lang="ja"
             data: {
                 newTaskTitle: '',
                 edittingTask: {
+                    task_id: '',
                     title: '',
                     deadline: '',
                     priority: '',
@@ -62,29 +64,20 @@ html lang="ja"
                     console.log(this.newTaskTitle);
                 },
                 submitEditedTask: function(){
-                    this.hideModal();
+
+                    this.edittingTask.priority = $('#priority').val();
+                    this.edittingTask.state = $('#state').val();
+
                     this.edittingTask.title = '';
                     this.edittingTask.deadline = '';
                     this.edittingTask.priority = '';
                     this.edittingTask.state = '';
                     this.edittingTask.memo = '';
+
+                    this.hideModal();
                 },
-                editTask: function(e){
-                    const nodeList = e.target.parentNode.querySelectorAll('span'),
-                          title = e.target.parentNode.querySelector('li').textContent,
-                          task_id = Number(nodeList[0].textContent),
-                          deadline = nodeList[1].textContent,
-                          dateString = deadline.substr(0, 10) + 'T' + deadline.substr(11, 5),
-                          priority = Number(nodeList[2].textContent),
-                          state = Number(nodeList[3].textContent),
-                          memo = nodeList[4].textContent;
-
-                    this.edittingTask.title = title;
-                    this.edittingTask.deadline = dateString;
-                    document.getElementById('priority').options[priority].selected = true;
-                    document.getElementById('state').options[state].selected = true;
-                    this.edittingTask.memo = memo;
-
+                editTask: function(event){
+                    this.autoInput(event);
                     this.showModal($('#modal-edit'));
                     
 
@@ -98,13 +91,30 @@ html lang="ja"
                     $('.modal').fadeOut();
                     $('#modal-background').fadeOut();
                     $('body').css('overflow', '');
+                },
+                autoInput: function(event){
+                    const nodeList = event.target.parentNode.querySelectorAll('span'),
+                          title = event.target.parentNode.querySelector('li').textContent,
+                          task_id = Number(nodeList[0].textContent),
+                          deadline = nodeList[1].textContent,
+                          dateString = deadline.substr(0, 10) + 'T' + deadline.substr(11, 5),
+                          priority = Number(nodeList[2].textContent),
+                          state = Number(nodeList[3].textContent),
+                          memo = nodeList[4].textContent;
+
+                    this.edittingTask.task_id = task_id;
+                    this.edittingTask.title = title;
+                    this.edittingTask.deadline = dateString;
+                    document.getElementById('priority').options[priority].selected = true; // なんかわからんけどバインドできない
+                    document.getElementById('state').options[state].selected = true; // なんかわからんけどバインドできない
+                    this.edittingTask.memo = memo;
                 }
             }
         });
 
         // 本当はDBから取得したタスクのオブジェクトたちをVueで管理したい。このやり方は嫌
-        $(document).on('click', '.task-container', function(e){
-            vm.editTask(e);
+        $(document).on('click', '.task-container', function(event){
+            vm.editTask(event);
         });
 
         function getDateString(now){

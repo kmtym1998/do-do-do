@@ -17,14 +17,19 @@ class JsController < ApplicationController
   end
 
   def ajax_edit
-    @taskTitle = params[:taskTitle]
-    @taskTitle = params[:taskTitle]
+    @task_id = params[:task_id]
+    @title = params[:taskTitle]
     @deadline = params[:deadline]
     @priority = params[:priority]
     @state = params[:state]
     @memo = params[:memo]
 
-    @tasks = Task.all
+    @task = Task.find_by(id: @task_id)
+    @task.title = @task_id
+    @task.priority = @priority
+    @task.state = @state
+    @task.save
+    
     render
   end
 
