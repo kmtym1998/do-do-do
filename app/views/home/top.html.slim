@@ -14,6 +14,12 @@ html lang="ja"
 
             main
                 h1 タスク一覧
+
+                / = form_with url: js_ajax_create_path do |f|
+                /     = f.select :state, [["作成日", "0"], ["最終変更日", "1"], ["優先度", "2"], ["ステータス", "3"]]
+                /     = f.select :state, [["昇順", "0"], ["降順", "1"]]
+                /     = f.submit 'ソート', class: "submit-btn submit-task-sort-method", "@click": "submitSortMethod"
+
                 div.validation-message.hidden#validation-message-create
                     | {{ validationMessages.create }}
 
@@ -90,6 +96,9 @@ html lang="ja"
                 },
                 deleteTask: function(){
                     console.log('deleting the task')
+                },
+                submitSortMethod: function(){
+                    console.log('submitting sort method')
                 },
                 beforeEdit: function(){ // 質問
                     console.log('beforeEdit is running')
