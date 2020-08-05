@@ -1,0 +1,12 @@
+tmp('<%= "#{ @task_id }" %>');
+
+function getTask(title, deadline, priority, state, memo){
+    vm.edittingTask.taskTitle = title;
+    vm.edittingTask.deadline = deadline;
+    vm.edittingTask.priority = priority;
+    vm.edittingTask.state = state;
+    vm.edittingTask.memo = memo;
+}
+function tmp(s){
+    console.log(s);
+}

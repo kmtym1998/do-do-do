@@ -53,3 +53,4 @@ group :test do
 end
 
 gem 'slim-rails'
+gem 'webpacker', github: 'rails/webpacker'
