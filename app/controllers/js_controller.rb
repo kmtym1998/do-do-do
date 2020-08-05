@@ -24,7 +24,7 @@ class JsController < ApplicationController
     @state = params[:state]
     @memo = params[:memo]
 
-    @task = Task.find(id: @task_id)
+    @task = Task.find(@task_id)
     @task.title = @title
     @task.deadline = @deadline
     @task.priority = @priority
@@ -37,7 +37,7 @@ class JsController < ApplicationController
 
   def ajax_delete
     @task_id = params[:task_id]
-    @task = Task.find(id: @task_id)
+    @task = Task.find(@task_id)
     @task.destroy
 
     render
