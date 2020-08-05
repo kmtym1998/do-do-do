@@ -14,6 +14,8 @@ html lang="ja"
 
             main
                 h1 タスク一覧
+                div.validation-message.hidden#validation-message-create
+                    | {{ validationMessages.create }}
 
                 = form_with url: js_ajax_create_path do |f|
                     = f.text_field :taskTitle, class: "input-task-title", "v-model": "newTaskTitle"
@@ -32,6 +34,7 @@ html lang="ja"
                                 = f.text_field :task_id, class: "hidden"
                                 = f.submit '削除', class: "delete-btn delete-task", "@click": "deleteTask"
 
+
                 div.modal-close#modal-background @click="hideModal"
 
                 div.modal#modal-edit
@@ -44,6 +47,9 @@ html lang="ja"
                             = f.select :state, [["未着手", "0"], ["着手", "1"], ["完了", "2"]], "v-model": "edittingTask.state"
                             = f.text_area :memo, class: "input-edit", "v-model": "edittingTask.memo"
                             = f.submit '完了', class: "submit-btn submit-editted-title", "@click": "submitEditedTask"
+                        div.validation-message.hidden#validation-message-edit
+                            | {{ validationMessages.edit }}
+                    
             footer
                 div#flash-message.hidden 
                     | {{ flashMessage }}
@@ -53,7 +59,11 @@ html lang="ja"
         const vm = new Vue({
             el: '#vm-container',
             data: {
-                flashMessage: 'init',
+                flashMessage: '',
+                validationMessages: {
+                    create: '',
+                    edit: ''
+                },
                 newTaskTitle: '',
                 edittingTask: {
                     task_id: '',
@@ -72,8 +82,7 @@ html lang="ja"
                     console.log('submitting new task');
                 },
                 submitEditedTask: function(){
-
-                    this.hideModal();
+                    console.log('submitting edittedtask');
                 },
                 editTask: function(event){
                     this.autoInput(event);
@@ -133,7 +142,16 @@ html lang="ja"
                         $('#flash-message').removeClass(classes.messageCategory);
                         $('#flash-message').addClass('hidden');
                     }, 2000);
+                },
+                displayValidationMessage: function(message, messageCategory, element){
+                    
+                    this.validationMessages[messageCategory] = message;
+                    $(element).removeClass('hidden');
+                    setTimeout(function(){
+                        $(element).addClass('hidden');
+                    }, 2000);
                 }
+
             },
             created: function(){
                 // Vueの嬉しさを全く活かさない書き方😞

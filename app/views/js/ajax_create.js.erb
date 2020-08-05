@@ -1,12 +1,16 @@
-createTask('<%= "#{ @newTask.title}" %>', '<%= "#{ @newTask.id}" %>');
+if('<%= "#{ @message}" %>'){
+    vm.displayValidationMessage('<%= "#{ @message}" %>', 'create', '#validation-message-create');
+}else{
+    createTask('<%= "#{ @title}" %>', '<%= "#{ @id}" %>');
 
-function createTask(title, id){
-    $('#tasks-container').prepend(`
-        <div class="task-container">
-            <li class="task-title" @click="editTask">` + title + `</li>
-            <span class="task-id">` + id + `</span>
-        </div>
-    `);
-    vm.newTaskTitle = '';
-    vm.displayFlashMessage('タスクを作成した！', 'success');
+    function createTask(title, id){
+        $('#tasks-container').prepend(`
+            <div class="task-container">
+                <li class="task-title" @click="editTask">` + title + `</li>
+                <span class="task-id">` + id + `</span>
+            </div>
+        `);
+        vm.newTaskTitle = '';
+        vm.displayFlashMessage('タスクを作成した！', 'success');
+    }
 }

@@ -31,5 +31,8 @@
 
 en:
   greetings: 
-      hello: 'Hello World'
-      whatsup: "What's up?"
+    hello: 'Hello World'
+    whatsup: "What's up?"
+  error:
+    noTitle: 'Input the title.'
+  

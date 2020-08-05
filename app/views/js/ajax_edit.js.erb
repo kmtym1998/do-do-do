@@ -1,11 +1,15 @@
-editTask(
-    '<%= "#{ @task_id }" %>',
-    '<%= "#{ @title }" %>',
-    '<%= "#{ @deadline }" %>',
-    '<%= "#{ @priority }" %>',
-    '<%= "#{ @state }" %>',
-    '<%= "#{ @memo }" %>'
-);
+if('<%= "#{ @message }" %>'){
+    vm.displayValidationMessage('<%= "#{ @message}" %>', 'edit', '#validation-message-edit');
+}else{
+    editTask(
+        '<%= "#{ @task_id }" %>',
+        '<%= "#{ @title }" %>',
+        '<%= "#{ @deadline }" %>',
+        '<%= "#{ @priority }" %>',
+        '<%= "#{ @state }" %>',
+        '<%= "#{ @memo }" %>'
+    );
+}
 
 function editTask(task_id, title, deadline, priority, state, memo){
     // Vueの嬉しさを全く活かさない書き方😞
@@ -29,6 +33,7 @@ function editTask(task_id, title, deadline, priority, state, memo){
             vm.edittingTask.state = '';
             vm.edittingTask.memo = '';
             vm.displayFlashMessage('タスクを編集した！', 'success');
+            vm.hideModal();
 
             return false;
         }
