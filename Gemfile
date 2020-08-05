@@ -37,6 +37,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'factory_bot_rails', '~>4.11'
 end
 
 group :development do
@@ -50,9 +51,12 @@ end
 
 group :test do
   gem 'selenium-webdriver'
+  gem 'capybara', '>=2.15'
+  gem 'chromedriver-helper'
+  gem 'rspec-rails', '~>3.7'
 end
 
 gem 'slim-rails'
 gem 'webpacker', github: 'rails/webpacker'
 
-gem 'rails-i18n', '~> 5.1' 
+gem 'rails-i18n', '~> 5.1'
