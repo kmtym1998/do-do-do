@@ -1,0 +1,6 @@
+ja:
+    greetings: 
+        hello: 'こんにちは世界'
+        whatsup: "元気？"
+    time:
+        current: "%Y年%m月%d日"

@@ -9,6 +9,8 @@ html lang="ja"
     body
         div#vm-container
             header
+                h2 = t 'greetings.hello'
+                h2 = l(Time.current)
 
             main
                 h1 タスク一覧

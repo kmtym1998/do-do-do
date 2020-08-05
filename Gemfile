@@ -54,3 +54,5 @@ end
 
 gem 'slim-rails'
 gem 'webpacker', github: 'rails/webpacker'
+
+gem 'rails-i18n', '~> 5.1' 
