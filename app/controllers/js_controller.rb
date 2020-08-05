@@ -1,6 +1,6 @@
 class JsController < ApplicationController
   def ajax_create
-    @taskTitle = params[:taskTitle]　
+    @taskTitle = params[:taskTitle]
 
     @task = Task.new
     @newTask = Task.create(title: @taskTitle, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
@@ -24,7 +24,7 @@ class JsController < ApplicationController
     @state = params[:state]
     @memo = params[:memo]
 
-    @task = Task.find_by(id: @task_id)
+    @task = Task.find(id: @task_id)
     @task.title = @title
     @task.deadline = @deadline
     @task.priority = @priority
@@ -37,7 +37,7 @@ class JsController < ApplicationController
 
   def ajax_delete
     @task_id = params[:task_id]
-    @task = Task.find_by(id: @task_id)
+    @task = Task.find(id: @task_id)
     @task.destroy
 
     render
