@@ -1,6 +1,6 @@
 class JsController < ApplicationController
   def ajax_create
-    @taskTitle = params[:taskTitle]　
+    @taskTitle = params[:taskTitle]
 
     @task = Task.new
     @newTask = Task.create(title: @taskTitle, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
