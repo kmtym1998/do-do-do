@@ -1,0 +1,6 @@
+ja:
+    greetings: 
+        hello: 'こんにちは世界'
+        whatsup: "元気？"
+    error:
+        noTitle: 'タイトルを入力してください'

@@ -1,10 +1,16 @@
 class JsController < ApplicationController
   def ajax_create
-    @taskTitle = params[:taskTitle]
+    @title = params[:taskTitle]
+    @message = ''
 
-    @task = Task.new
-    @newTask = Task.create(title: @taskTitle, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
-    
+    if(@title == '')
+      @message = I18n.t('error.noTitle')
+    else
+      @task = Task.new
+      @newTask = Task.create(title: @taskTitle, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
+      @title = @newtask.title
+      @id = @newtask.id
+    end
     render
   end
 
@@ -17,20 +23,25 @@ class JsController < ApplicationController
   end
 
   def ajax_edit
-    @task_id = params[:task_id]
     @title = params[:title]
+    @task_id = params[:task_id]
     @deadline = params[:deadline]
     @priority = params[:priority]
     @state = params[:state]
     @memo = params[:memo]
+    @message = ''
 
-    @task = Task.find(@task_id)
-    @task.title = @title
-    @task.deadline = @deadline
-    @task.priority = @priority
-    @task.state = @state
-    @task.memo = @memo
-    @task.save
+    if(@title == '')
+      @message = I18n.t('error.noTitle')
+    else
+      @task = Task.find(@task_id)
+      @task.title = @title
+      @task.deadline = @deadline
+      @task.priority = @priority
+      @task.state = @state
+      @task.memo = @memo
+      @task.save
+    end
     
     render
   end

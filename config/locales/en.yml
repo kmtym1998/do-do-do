@@ -30,4 +30,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  greetings: 
+    hello: 'Hello World'
+    whatsup: "What's up?"
+  error:
+    noTitle: 'Input the title.'
+  
