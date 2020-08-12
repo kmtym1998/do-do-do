@@ -1,7 +1,7 @@
 if('<%= "#{ @message}" %>'){
-    vm.displayValidationMessage('<%= "#{ @message}" %>', 'create', '#validation-message-create');
+    vm.displayValidationMessage('<%= "#{ @message }" %>', 'create', '#validation-message-create');
 }else{
-    createTask('<%= "#{ @title}" %>', '<%= "#{ @id}" %>');
+    createTask('<%= "#{ @title }" %>', '<%= "#{ @id }" %>');
 
     function createTask(title, id){
         $('#tasks-container').prepend(`

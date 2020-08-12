@@ -24,7 +24,7 @@ html lang="ja"
                     | {{ validationMessages.create }}
 
                 = form_with url: js_ajax_create_path do |f|
-                    = f.text_field :taskTitle, class: "input-task-title", "v-model": "newTaskTitle"
+                    = f.text_field :newTaskTitle, class: "input-task-title", "v-model": "newTaskTitle"
                     = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"
 
                 div#tasks-container
