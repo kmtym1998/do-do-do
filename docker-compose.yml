@@ -54,3 +54,8 @@ services:
     logging:
       driver: none
     container_name: selenium_chrome
+
+  chrome:
+    image: selenium/standalone-chrome:3.141.59-dubnium
+    ports:
+      - 4444:4444

@@ -38,6 +38,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'factory_bot_rails', '~>4.11'
+  gem 'rspec-rails', '~>3.7'
 end
 
 group :development do
@@ -50,9 +51,8 @@ group :development do
 end
 
 group :test do
-  gem 'selenium-webdriver'
   gem 'capybara', '>=2.15'
-  gem 'rspec-rails', '~>3.7'
+  gem 'selenium-webdriver'
 end
 
 gem 'slim-rails'
