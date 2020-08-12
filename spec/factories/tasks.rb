@@ -4,7 +4,7 @@ FactoryBot.define do
     end
 
     factory :task, class: Task do
-        id
+        id {Time.parse(Time.now).to_i}
         title
         deadline{ Time.now + 1.hour }
         priority {0}
@@ -12,5 +12,34 @@ FactoryBot.define do
         memo {'sample memo'}
         association :category
         user_id {category.user_id}
+        created_at { Time.now }
+        upadated_at { Time.now }
+    end
+
+
+    factory :ancient_task, class: Task do
+        id {Time.parse(Time.now).to_i}
+        title
+        deadline{ Time.now - 1000.year + 1.hour }
+        priority {0}
+        state {0}
+        memo {'sample memo'}
+        association :category
+        user_id {category.user_id}
+        created_at { Time.now - 1000.year }
+        upadated_at { Time.now - 1000.year }
+    end
+
+    factory :future_task, class: Task do
+        id {Time.parse(Time.now).to_i}
+        title
+        deadline{ Time.now + 1000.year + 1.hour }
+        priority {0}
+        state {0}
+        memo {'sample memo'}
+        association :category
+        user_id {category.user_id}
+        created_at { Time.now + 1000.year }
+        upadated_at { Time.now + 1000.year }
     end
 end

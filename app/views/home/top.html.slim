@@ -28,9 +28,10 @@ html lang="ja"
                     = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"
 
                 div#tasks-container
-                    -@tasks.reverse_each do |task|
+                    -@tasks.each do |task|
                         div.task-container
                             li.task-title = task.title 
+                            span = task.created_at
                             span.hidden.task-id = task.id
                             span.hidden.deadline = task.deadline
                             span.hidden.priority = task.priority

@@ -53,6 +53,8 @@ RSpec.configure do |config|
     host! "http://#{Capybara.server_host}:#{Capybara.server_port}"
   end
 
+  config.include FactoryBot::Syntax::Methods
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
