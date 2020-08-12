@@ -1,7 +1,7 @@
 class JsController < ApplicationController
   def ajax_create
     @title = params[:newTaskTitle]
-    @message = include FactoryBot::Syntax::Methods
+    @message = ''
 
     if(@title == '')
       @message = I18n.t('error.noTitle')
