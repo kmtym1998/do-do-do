@@ -2,6 +2,7 @@
 require 'spec_helper'
 require 'capybara/rspec'
 require 'pry'
+require 'database_cleaner'
 ENV['RAILS_ENV'] ||= 'test'
 
 Capybara.server_host = Socket.ip_address_list.detect { |addr| addr.ipv4_private? }.ip_address
@@ -55,6 +56,18 @@ RSpec.configure do |config|
   end
 
   config.include FactoryBot::Syntax::Methods
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

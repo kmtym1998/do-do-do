@@ -55,6 +55,7 @@ group :test do
   gem 'selenium-webdriver'
   gem 'pry-rails'
   gem 'pry-byebug'
+  gem 'database_cleaner'
 end
 
 gem 'slim-rails'
