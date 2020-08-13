@@ -53,6 +53,8 @@ end
 group :test do
   gem 'capybara', '>=2.15'
   gem 'selenium-webdriver'
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 gem 'slim-rails'

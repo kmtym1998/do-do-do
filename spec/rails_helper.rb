@@ -1,6 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 require 'capybara/rspec'
+require 'pry'
 ENV['RAILS_ENV'] ||= 'test'
 
 Capybara.server_host = Socket.ip_address_list.detect { |addr| addr.ipv4_private? }.ip_address
