@@ -31,7 +31,6 @@ html lang="ja"
                     -@tasks.each do |task|
                         div.task-container
                             li.task-title = task.title 
-                            span = task.created_at
                             span.hidden.task-id = task.id
                             span.hidden.deadline = task.deadline
                             span.hidden.priority = task.priority
