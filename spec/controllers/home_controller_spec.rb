@@ -37,7 +37,7 @@ RSpec.describe "Home", type: :system, js: true do
     all('.task-title')
   end
 
-  describe "ホーム画面にアクセスしたとき" do
+  context "ホーム画面にアクセスしたとき" do
     it 'タスク一覧が表示されること' do
         visit '/'
         expect(titles[0].text).to have_content(future_task.updated_at.strftime('%Y%m%d'))
