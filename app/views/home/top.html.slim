@@ -14,15 +14,16 @@ html lang="ja"
 
             main
                 h1 タスク一覧
+
                 div.validation-message.hidden#validation-message-create
                     | {{ validationMessages.create }}
 
                 = form_with url: js_ajax_create_path do |f|
-                    = f.text_field :taskTitle, class: "input-task-title", "v-model": "newTaskTitle"
+                    = f.text_field :newTaskTitle, class: "input-task-title", "v-model": "newTaskTitle"
                     = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"
 
                 div#tasks-container
-                    -@tasks.reverse_each do |task|
+                    -@tasks.each do |task|
                         div.task-container
                             li.task-title = task.title 
                             span.hidden.task-id = task.id
@@ -90,6 +91,9 @@ html lang="ja"
                 },
                 deleteTask: function(){
                     console.log('deleting the task')
+                },
+                submitSortMethod: function(){
+                    console.log('submitting sort method')
                 },
                 beforeEdit: function(){ // 質問
                     console.log('beforeEdit is running')

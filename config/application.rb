@@ -34,5 +34,12 @@ module App
     config.active_record.default_timezone = :local
     config.i18n.default_locale = :ja
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+
+    config.generators do |g|
+
+      # Railsジェネレータがfactory_bot用のファイルを生成するのを無効化
+      g.factory_bot false
+    
+    end
   end
 end
