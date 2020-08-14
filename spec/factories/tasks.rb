@@ -12,25 +12,4 @@ FactoryBot.define do
         category
         user
     end
-
-
-    # factory :ancient_task, class: Task do
-    #     title
-    #     deadline{ Time.now - 1000.year + 1.hour }
-    #     priority {0}
-    #     state {0}
-    #     memo {'sample memo'}
-    #     category_id {1}
-    #     user_id {1}
-    # end
-
-    # factory :future_task, class: Task do
-    #     title
-    #     deadline{ Time.now + 1000.year + 1.hour }
-    #     priority {0}
-    #     state {0}
-    #     memo {'sample memo'}
-    #     category_id {1}
-    #     user_id {1}
-    # end
 end
