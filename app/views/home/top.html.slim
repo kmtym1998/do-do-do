@@ -16,7 +16,7 @@ html lang="ja"
                 h1 タスク一覧
 
                 div.validation-message.hidden#validation-message-create
-                    | {{ validationMessages.create }}
+                    li v-for="message in validationMessages.create" v-html="message"
 
                 = form_with url: js_ajax_create_path do |f|
                     = f.text_field :newTaskTitle, class: "input-task-title", "v-model": "newTaskTitle"
@@ -49,7 +49,7 @@ html lang="ja"
                             = f.text_area :memo, class: "input-edit", "v-model": "edittingTask.memo"
                             = f.submit '完了', class: "submit-btn submit-editted-title", "@click": "submitEditedTask"
                         div.validation-message.hidden#validation-message-edit
-                            | {{ validationMessages.edit }}
+                            li v-for="message in validationMessages.edit" v-html="message"
                     
             footer
                 div#flash-message.hidden 
@@ -62,8 +62,8 @@ html lang="ja"
             data: {
                 flashMessage: '',
                 validationMessages: {
-                    create: '',
-                    edit: ''
+                    create: [],
+                    edit: []
                 },
                 newTaskTitle: '',
                 edittingTask: {
@@ -95,7 +95,7 @@ html lang="ja"
                 submitSortMethod: function(){
                     console.log('submitting sort method')
                 },
-                beforeEdit: function(){ // 質問
+                beforeEdit: function(){
                     console.log('beforeEdit is running')
                     $.ajax({
                         url: '/js/ajax_before_edit',
@@ -147,9 +147,15 @@ html lang="ja"
                         $('#flash-message').addClass('hidden');
                     }, 2000);
                 },
-                displayValidationMessage: function(message, messageCategory, element){
-                    
-                    this.validationMessages[messageCategory] = message;
+                displayValidationMessage: function(messages, messageCategory, element){
+                    for(let i = 0; i < messages.length; i++){
+                        messages[i] = messages[i].replace('[', '');
+                        messages[i] = messages[i].replace(']', '');
+
+                        messages[i] = messages[i].replace('&quot;', '');
+                        messages[i] = messages[i].replace('&quot;', '');
+                    }
+                    this.validationMessages[messageCategory] = messages;
                     $(element).removeClass('hidden');
                     setTimeout(function(){
                         $(element).addClass('hidden');

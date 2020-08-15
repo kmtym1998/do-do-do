@@ -1,5 +1,7 @@
-if('<%= "#{ @message}" %>'){
-    vm.displayValidationMessage('<%= "#{ @message }" %>', 'create', '#validation-message-create');
+if('<%= "#{ @message }" %>'){
+    const message = '<%= "#{ @message }" %>';
+    messageArray = message.split(',');
+    vm.displayValidationMessage(messageArray, 'create', '#validation-message-create');
 }else{
     createTask('<%= "#{ @title }" %>', '<%= "#{ @id }" %>');
 

@@ -1,5 +1,7 @@
 if('<%= "#{ @message }" %>'){
-    vm.displayValidationMessage('<%= "#{ @message}" %>', 'edit', '#validation-message-edit');
+    const message = '<%= "#{ @message }" %>';
+    messageArray = message.split(',');
+    vm.displayValidationMessage(messageArray, 'edit', '#validation-message-edit');
 }else{
     editTask(
         '<%= "#{ @task_id }" %>',
