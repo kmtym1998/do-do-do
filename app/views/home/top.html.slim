@@ -1,227 +1,226 @@
-html lang="ja"
-    head
-        meta charset="UTF-8"/
-        meta name="viewport" content="width=device-width, initial-scale=1.0"/
-        title Document
-        script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"
-        script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"
-        / 本番環境 script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"
-    body
-        div#vm-container
-            header
-                h2 = t 'greetings.hello'
-                h2 = l(Time.current)
+head
+    meta charset="UTF-8"/
+    meta name="viewport" content="width=device-width, initial-scale=1.0"/
+    title Document
+    script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"
+    / script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"
+    / 本番環境 script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"
+body
+    div#vm-container
+        header
+            h2 = t 'greetings.hello'
+            h2 = l(Time.current)
 
-            main
-                h1 タスク一覧
+        main
+            h1 タスク一覧
 
-                div.validation-message.hidden#validation-message-create
-                    li v-for="message in validationMessages.create" v-html="message"
+            div.validation-message.hidden#validation-message-create
+                li v-for="message in validationMessages.create" v-html="message"
 
-                = form_with url: js_ajax_create_path do |f|
-                    = f.text_field :newTaskTitle, class: "input-task-title", "v-model": "newTaskTitle"
-                    = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"
+            = form_with url: js_ajax_create_path do |f|
+                = f.text_field :newTaskTitle, class: "input-task-title", "v-model": "newTaskTitle"
+                = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"
 
-                div#tasks-container
-                    -@tasks.each do |task|
-                        div.task-container
-                            li.task-title = task.title 
-                            span.hidden.task-id = task.id
-                            span.hidden.deadline = task.deadline
-                            span.hidden.priority = task.priority
-                            span.hidden.state = task.state
-                            span.hidden.memo = task.memo
-                            = form_with url: js_ajax_delete_path do |f|
-                                = f.text_field :task_id, class: "hidden"
-                                = f.submit '削除', class: "delete-btn delete-task", "@click": "deleteTask"
+            div#tasks-container
+                -@tasks.each do |task|
+                    div.task-container
+                        li.task-title = task.title 
+                        span.hidden.task-id = task.id
+                        span.hidden.deadline = task.deadline
+                        span.hidden.priority = task.priority
+                        span.hidden.state = task.state
+                        span.hidden.memo = task.memo
+                        = form_with url: js_ajax_delete_path do |f|
+                            = f.text_field :task_id, class: "hidden"
+                            = f.submit '削除', class: "delete-btn delete-task", "@click": "deleteTask"
 
 
-                div.modal-close#modal-background @click="hideModal"
+            div.modal-close#modal-background @click="hideModal"
 
-                div.modal#modal-edit
-                    div.modal-content#modal-edit-content
-                        = form_with url: js_ajax_edit_path do |f|
-                            = f.text_field :task_id, class: "hidden", "v-model": "edittingTask.task_id"
-                            = f.text_field :title, class: "input-edit", placeholder: "タスク名", "v-model": "edittingTask.title"
-                            = f.datetime_field :deadline, class: "input-edit", "v-model": "edittingTask.deadline"
-                            = f.select :priority, [["低", "0"], ["中", "1"], ["高", "2"]], "v-model": "edittingTask.priority"
-                            = f.select :state, [["未着手", "0"], ["着手", "1"], ["完了", "2"]], "v-model": "edittingTask.state"
-                            = f.text_area :memo, class: "input-edit", "v-model": "edittingTask.memo"
-                            = f.submit '完了', class: "submit-btn submit-editted-title", "@click": "submitEditedTask"
-                        div.validation-message.hidden#validation-message-edit
-                            li v-for="message in validationMessages.edit" v-html="message"
+            div.modal#modal-edit
+                div.modal-content#modal-edit-content
+                    = form_with url: js_ajax_edit_path do |f|
+                        = f.text_field :task_id, class: "hidden", "v-model": "edittingTask.task_id"
+                        = f.text_field :title, class: "input-edit", placeholder: "タスク名", "v-model": "edittingTask.title"
+                        = f.datetime_field :deadline, class: "input-edit", "v-model": "edittingTask.deadline"
+                        = f.select :priority, [["低", "0"], ["中", "1"], ["高", "2"]], "v-model": "edittingTask.priority"
+                        = f.select :state, [["未着手", "0"], ["着手", "1"], ["完了", "2"]], "v-model": "edittingTask.state"
+                        = f.text_area :memo, class: "input-edit", "v-model": "edittingTask.memo"
+                        = f.submit '完了', class: "submit-btn submit-editted-title", "@click": "submitEditedTask"
+                    div.validation-message.hidden#validation-message-edit
+                        li v-for="message in validationMessages.edit" v-html="message"
+                
+        footer
+            div#flash-message.hidden 
+                | {{ flashMessage }}
+
+
+javascript:
+    const vm = new Vue({
+        el: '#vm-container',
+        data: {
+            flashMessage: '',
+            validationMessages: {
+                create: [],
+                edit: []
+            },
+            newTaskTitle: '',
+            edittingTask: {
+                task_id: '',
+                title: '',
+                deadline: '',
+                priority: '',
+                state: '',
+                memo: ''
+            }
+        },
+        methods: {
+            showModal: function(){
+                console.log('A click has been detected')
+            },
+            submitNewTask: function(){
+                console.log('submitting new task');
+            },
+            submitEditedTask: function(){
+                console.log('submitting edittedtask');
+            },
+            editTask: function(event){
+                this.autoInput(event);
+                this.showModal($('#modal-edit'));
+            },
+            deleteTask: function(){
+                console.log('deleting the task')
+            },
+            submitSortMethod: function(){
+                console.log('submitting sort method')
+            },
+            beforeEdit: function(){
+                console.log('beforeEdit is running')
+                $.ajax({
+                    url: '/js/ajax_before_edit',
+                    data: {
+                        id: 53
+                    },
+                    method: 'POST'
+                })
+            },
+            showModal: function($target){
+                $($target).fadeIn();
+                $('#modal-background').fadeIn();
+                $('body').css('overflow', 'hidden');
+
+            },
+            hideModal: function(){
+                $('.modal').fadeOut();
+                $('#modal-background').fadeOut();
+                $('body').css('overflow', '');
+            },
+            autoInput: function(event){
+                const nodeList = event.target.parentNode.querySelectorAll('span'),
+                        title = event.target.parentNode.querySelector('li').textContent,
+                        task_id = Number(nodeList[0].textContent),
+                        deadline = nodeList[1].textContent,
+                        dateString = deadline.substr(0, 10) + 'T' + deadline.substr(11, 5),
+                        priority = Number(nodeList[2].textContent),
+                        state = Number(nodeList[3].textContent),
+                        memo = nodeList[4].textContent;
+
+                this.edittingTask.task_id = task_id;
+                this.edittingTask.title = title;
+                this.edittingTask.deadline = dateString;
+                document.getElementById('priority').options[priority].selected = true; // なんかわからんけどバインドできない
+                document.getElementById('state').options[state].selected = true; // なんかわからんけどバインドできない
+                this.edittingTask.memo = memo;
+            },
+            displayFlashMessage: function(message, messageCategory){
+                const classes = {
+                    success: 'flash-message-success',
+                    fail: 'flash-message-fail'
+                }
+                this.flashMessage = message;
+                $('#flash-message').addClass(classes.messageCategory);
+                $('#flash-message').removeClass('hidden');
+
+                setTimeout(function(){
+                    $('#flash-message').removeClass(classes.messageCategory);
+                    $('#flash-message').addClass('hidden');
+                }, 2000);
+            },
+            displayValidationMessage: function(messages, messageCategory, element){
+                for(let i = 0; i < messages.length; i++){
+                    messages[i] = messages[i].replace('[', '');
+                    messages[i] = messages[i].replace(']', '');
+
+                    messages[i] = messages[i].replace('&quot;', '');
+                    messages[i] = messages[i].replace('&quot;', '');
+                }
+                this.validationMessages[messageCategory] = messages;
+                $(element).removeClass('hidden');
+                setTimeout(function(){
+                    $(element).addClass('hidden');
+                }, 2000);
+            }
+
+        },
+        created: function(){
+            // Vueの嬉しさを全く活かさない書き方😞
+            const taskElements = document.getElementsByClassName('task-container');
+            let nodeList;
+            let task_id;
+            for(let i = 0; i < taskElements.length; i++){
                     
-            footer
-                div#flash-message.hidden 
-                    | {{ flashMessage }}
-
-
-    javascript:
-        const vm = new Vue({
-            el: '#vm-container',
-            data: {
-                flashMessage: '',
-                validationMessages: {
-                    create: [],
-                    edit: []
-                },
-                newTaskTitle: '',
-                edittingTask: {
-                    task_id: '',
-                    title: '',
-                    deadline: '',
-                    priority: '',
-                    state: '',
-                    memo: ''
-                }
-            },
-            methods: {
-                showModal: function(){
-                    console.log('A click has been detected')
-                },
-                submitNewTask: function(){
-                    console.log('submitting new task');
-                },
-                submitEditedTask: function(){
-                    console.log('submitting edittedtask');
-                },
-                editTask: function(event){
-                    this.autoInput(event);
-                    this.showModal($('#modal-edit'));
-                },
-                deleteTask: function(){
-                    console.log('deleting the task')
-                },
-                submitSortMethod: function(){
-                    console.log('submitting sort method')
-                },
-                beforeEdit: function(){
-                    console.log('beforeEdit is running')
-                    $.ajax({
-                        url: '/js/ajax_before_edit',
-                        data: {
-                            id: 53
-                        },
-                        method: 'POST'
-                    })
-                },
-                showModal: function($target){
-                    $($target).fadeIn();
-                    $('#modal-background').fadeIn();
-                    $('body').css('overflow', 'hidden');
-
-                },
-                hideModal: function(){
-                    $('.modal').fadeOut();
-                    $('#modal-background').fadeOut();
-                    $('body').css('overflow', '');
-                },
-                autoInput: function(event){
-                    const nodeList = event.target.parentNode.querySelectorAll('span'),
-                          title = event.target.parentNode.querySelector('li').textContent,
-                          task_id = Number(nodeList[0].textContent),
-                          deadline = nodeList[1].textContent,
-                          dateString = deadline.substr(0, 10) + 'T' + deadline.substr(11, 5),
-                          priority = Number(nodeList[2].textContent),
-                          state = Number(nodeList[3].textContent),
-                          memo = nodeList[4].textContent;
-
-                    this.edittingTask.task_id = task_id;
-                    this.edittingTask.title = title;
-                    this.edittingTask.deadline = dateString;
-                    document.getElementById('priority').options[priority].selected = true; // なんかわからんけどバインドできない
-                    document.getElementById('state').options[state].selected = true; // なんかわからんけどバインドできない
-                    this.edittingTask.memo = memo;
-                },
-                displayFlashMessage: function(message, messageCategory){
-                    const classes = {
-                        success: 'flash-message-success',
-                        fail: 'flash-message-fail'
-                    }
-                    this.flashMessage = message;
-                    $('#flash-message').addClass(classes.messageCategory);
-                    $('#flash-message').removeClass('hidden');
-
-                    setTimeout(function(){
-                        $('#flash-message').removeClass(classes.messageCategory);
-                        $('#flash-message').addClass('hidden');
-                    }, 2000);
-                },
-                displayValidationMessage: function(messages, messageCategory, element){
-                    for(let i = 0; i < messages.length; i++){
-                        messages[i] = messages[i].replace('[', '');
-                        messages[i] = messages[i].replace(']', '');
-
-                        messages[i] = messages[i].replace('&quot;', '');
-                        messages[i] = messages[i].replace('&quot;', '');
-                    }
-                    this.validationMessages[messageCategory] = messages;
-                    $(element).removeClass('hidden');
-                    setTimeout(function(){
-                        $(element).addClass('hidden');
-                    }, 2000);
-                }
-
-            },
-            created: function(){
-                // Vueの嬉しさを全く活かさない書き方😞
-                const taskElements = document.getElementsByClassName('task-container');
-                let nodeList;
-                let task_id;
-                for(let i = 0; i < taskElements.length; i++){
-                        
-                    setTimeout(function(){
-                        task_id = taskElements[i].querySelector('span').textContent;
-                        taskElements[i].querySelector('form').childNodes[2].value = task_id;
-                    }, 1); // なんでこうしないといけないかはわからん
-                }
-
+                setTimeout(function(){
+                    task_id = taskElements[i].querySelector('span').textContent;
+                    taskElements[i].querySelector('form').childNodes[2].value = task_id;
+                }, 1); // なんでこうしないといけないかはわからん
             }
-        });
 
-        // Vueの嬉しさを全く活かさない書き方😞
-        // 本当はDBから取得したタスクのオブジェクトたちをVueで管理したい
-        $(document).on('click', '.task-title', function(event){
-            vm.editTask(event);
-        });
+        }
+    });
 
-        function getDateString(now){
-            let res = getYearToString(now.getFullYear());
-            res += '-' + getMonthToString(now.getMonth() + 1);
-            res += '-' + getDateToString(now.getDate());
-            res += 'T' + getHourToString(now.getHours());
-            res += ':' + getMinuteToString(now.getMinutes());
-            return res;
+    // Vueの嬉しさを全く活かさない書き方😞
+    // 本当はDBから取得したタスクのオブジェクトたちをVueで管理したい
+    $(document).on('click', '.task-title', function(event){
+        vm.editTask(event);
+    });
 
-            function getYearToString(year){
-                return String(year);
-            }
-            function getMonthToString(month){
-                if(month < 10){
-                    return '0' + String(month);
-                }else{
-                    return String(month);
-                }
-            }
-            function getDateToString(date){
-                if(date < 10){
-                    return '0' + String(date);
-                }else{
-                    return String(date);
-                }
-            }
-            function getHourToString(hour){
-                if(hour < 10){
-                    return '0' + String(hour);
-                }else{
-                    return String(hour);
-                }
-            }
-            function getMinuteToString(min){
-                if(min < 10){
-                    return '0' + String(min);
-                }else{
-                    return String(min);
-                }
+    function getDateString(now){
+        let res = getYearToString(now.getFullYear());
+        res += '-' + getMonthToString(now.getMonth() + 1);
+        res += '-' + getDateToString(now.getDate());
+        res += 'T' + getHourToString(now.getHours());
+        res += ':' + getMinuteToString(now.getMinutes());
+        return res;
+
+        function getYearToString(year){
+            return String(year);
+        }
+        function getMonthToString(month){
+            if(month < 10){
+                return '0' + String(month);
+            }else{
+                return String(month);
             }
         }
+        function getDateToString(date){
+            if(date < 10){
+                return '0' + String(date);
+            }else{
+                return String(date);
+            }
+        }
+        function getHourToString(hour){
+            if(hour < 10){
+                return '0' + String(hour);
+            }else{
+                return String(hour);
+            }
+        }
+        function getMinuteToString(min){
+            if(min < 10){
+                return '0' + String(min);
+            }else{
+                return String(min);
+            }
+        }
+    }
