@@ -177,3 +177,13 @@ Dockerfileに組み込みたいが、Privilegedで起動扠せねばならぬ問
 | id | int|
 | title | string |
 | user_id | int |
+
+
+## デプロイの方法
+GitHubと連携してherokuにデプロイ。このリポジトリのmasterブランチから自動でデプロイを行うように設定した。手動でデプロイを行う場合は、[herokuアプリのダッシュボード](https://dashboard.heroku.com/apps/do-do-do/deploy/github)のデプロイタブから、Manual deployのセクションでデプロイするブランチを選択し、`Deploy Branch`を選択する。本番環境での`heroku run`コマンドの実行や、ログの確認もコンソールから行うことができる。
+
+## バージョン情報
+- Ruby 2.6.2
+- Rails 5.2.4.3
+- gem 3.0.3
+- PostgreSQL 9.6.18
