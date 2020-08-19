@@ -4,12 +4,12 @@ if('<%= "#{ @message }" %>'){
     vm.displayValidationMessage(messageArray, 'edit', '#validation-message-edit');
 }else{
     editTask(
-        '<%= "#{ @task_id }" %>',
-        '<%= "#{ @title }" %>',
-        '<%= "#{ @deadline }" %>',
-        '<%= "#{ @priority }" %>',
-        '<%= "#{ @state }" %>',
-        '<%= "#{ @memo }" %>'
+        '<%= "#{ @task.id }" %>',
+        '<%= "#{ @task.title }" %>',
+        '<%= "#{ @task.deadline }" %>',
+        '<%= "#{ @task.priority }" %>',
+        '<%= "#{ @task.state }" %>',
+        '<%= "#{ @task.memo }" %>'
     );
 }
 
