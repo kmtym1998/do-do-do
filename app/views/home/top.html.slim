@@ -15,7 +15,7 @@ body
             h1 タスク一覧
 
             = form_with url: root_path do |f|
-                = f.select :sort_state, [["締め切り降順", "0"], ["作成日降順", "1"], ["更新日降順", "2"]]
+                = f.select :sort_state, [["締め切り降順", "0"], ["作成日降順", "1"], ["更新日降順", "2"]], selected: @sort_state
                 = f.submit '完了', class: "submit-btn"
 
             div.validation-message.hidden#validation-message-create
