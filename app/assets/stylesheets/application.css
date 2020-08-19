@@ -17,7 +17,9 @@
      display: none;
  }
 
-
+ .validation-message{
+     list-style: none;
+ }
 .task-title{
     list-style: none;
     font-size: 19px;

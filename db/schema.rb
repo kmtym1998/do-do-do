@@ -10,35 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_22_031552) do
+ActiveRecord::Schema.define(version: 2020_08_14_085926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "categories", force: :cascade do |t|
-    t.string "title"
-    t.integer "user_id"
+    t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_categories_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.datetime "deadline"
     t.integer "priority"
     t.integer "state"
     t.text "memo"
-    t.integer "user_id"
-    t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_tasks_on_category_id"
+    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "password"
-    t.string "name"
+    t.string "password", null: false
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "categories", "users"
+  add_foreign_key "tasks", "categories"
+  add_foreign_key "tasks", "users"
 end

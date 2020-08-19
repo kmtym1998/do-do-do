@@ -3,43 +3,33 @@ class JsController < ApplicationController
     @title = params[:newTaskTitle]
     @message = ''
 
-    if(@title == '')
-      @message = I18n.t('error.noTitle')
-    else
-      @task = Task.new
-      @newTask = Task.create(title: @title, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
+    @newTask = Task.create(title: @title, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
+    if @newTask.valid?
       @id = @newTask.id
+    else
+      @message = @newTask.errors.full_messages
     end
     render
   end
 
   def ajax_before_edit
     @task_id = params[:id]
-    # @task = Task.find_by(id: @task_id)
-    
-
     render
   end
 
   def ajax_edit
-    @title = params[:title]
-    @task_id = params[:task_id]
-    @deadline = params[:deadline]
-    @priority = params[:priority]
-    @state = params[:state]
-    @memo = params[:memo]
     @message = ''
 
-    if(@title == '')
-      @message = I18n.t('error.noTitle')
-    else
-      @task = Task.find(@task_id)
-      @task.title = @title
-      @task.deadline = @deadline
-      @task.priority = @priority
-      @task.state = @state
-      @task.memo = @memo
-      @task.save
+    @task = Task.find(params[:task_id])
+    @task.title = params[:title]
+    @task.deadline = params[:deadline]
+    @task.priority = params[:priority]
+    @task.state = params[:state]
+    @task.memo = params[:memo]
+    @task.save
+
+    if !@task.valid?
+      @message = @task.errors.full_messages
     end
     
     render
