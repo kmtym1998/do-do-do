@@ -1,2 +1,8 @@
-h1 Home#login
-p Find me in app/views/home/login.html.slim
+.login-form-wrapper
+    h1 do-do-do ログイン
+    = session[:message]
+    = form_with url: login_path, local: true do |f|
+        = f.text_field :id, class: "input-login", placeholder: "input login id"
+        = f.password_field :password, class: "input-login", placeholder: "input password"
+        br/
+        = f.submit '完了', class: "submit-btn-login"
