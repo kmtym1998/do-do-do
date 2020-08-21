@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2020_08_21_011929) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sort_state", null: false
-    t.boolean "admin", default: false, null: false
+    t.boolean "is_admin", default: false, null: false
   end
 
   add_foreign_key "categories", "users"
