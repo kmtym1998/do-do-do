@@ -6,7 +6,8 @@ RSpec.describe User, type: :model do
       User.create(
         id: 100,
         name: 'sample',
-        password: 'sample'
+        password: 'sample',
+        sort_state: 0
       )
     } 
     it "バリデーションが通る" do
@@ -21,7 +22,8 @@ RSpec.describe User, type: :model do
         User.create(
           id: 101,
           name: '',
-          password: 'sample'
+          password: 'sample',
+          sort_state: 0
         )
       }
       it "バリデーションが通らない" do
@@ -33,7 +35,8 @@ RSpec.describe User, type: :model do
       let(:invalid_task_2) {
         User.create(
           id: 102,
-          password: 'sample'
+          password: 'sample',
+          sort_state: 0
         )
       }
       it "バリデーションが通らない" do
@@ -49,7 +52,8 @@ RSpec.describe User, type: :model do
         User.create(
           id: 103,
           name: 'sample',
-          password: ''
+          password: '',
+          sort_state: 0
         )
       }
       it "バリデーションが通らない" do
@@ -61,7 +65,8 @@ RSpec.describe User, type: :model do
       let(:invalid_task_4) {
         User.create(
           id: 104,
-          name: 'sample'
+          name: 'sample',
+          sort_state: 0
         )
       }
       it "バリデーションが通らない" do

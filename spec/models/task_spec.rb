@@ -6,7 +6,8 @@ RSpec.describe Task, type: :model do
       User.create(
         id: 100,
         name: 'sample',
-        password: 'sample'
+        password: 'sample',
+        sort_state: 0
       )
       Category.create(
         id: 100,
