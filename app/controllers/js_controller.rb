@@ -3,7 +3,15 @@ class JsController < ApplicationController
     @title = params[:newTaskTitle]
     @message = ''
 
-    @newTask = Task.create(title: @title, deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
+    @newTask = Task.create(
+      title: @title,
+      deadline: Time.zone.now + 1.day,
+      priority: rand(0..2),
+      state: rand(0..2),
+      memo: 'test',
+      user_id: session[:login],
+      category_id: Category.where(user_id: session[:login]).first.id
+    )
     if @newTask.valid?
       @id = @newTask.id
     else
