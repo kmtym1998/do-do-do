@@ -9,7 +9,7 @@ class HomeController < ApplicationController
       Task.create(title: 'データ消えすぎ問題対策', deadline: Time.zone.now, priority: rand(0..2), state: rand(0..2), memo: 'test', user_id: 1, category_id: 1)
     end
 
-    @sort_state = User.find(1).sort_state
+    @sort_state = User.first.sort_state
 
     case @sort_state
     when 0
@@ -23,7 +23,7 @@ class HomeController < ApplicationController
   end
 
   def sort_tasks
-    @user = User.find(1)
+    @user = User.first
     @user.sort_state = params[:sort_state]
     @user.save
   end
