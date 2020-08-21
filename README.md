@@ -158,6 +158,8 @@ Dockerfileに組み込みたいが、Privilegedで起動扠せねばならぬ問
 | id | int|
 | password | string |
 | name | string |
+| sort_state | int |
+| admin | boolean |
 
 モデル名：Task
 | カラム名 | データ型 |
@@ -168,15 +170,15 @@ Dockerfileに組み込みたいが、Privilegedで起動扠せねばならぬ問
 | priority | int |
 | state | int |
 | memo | string |
-| user_id | int |
-| category_id | int |
+| user_id | references |
+| category_id | references |
 
 モデル名：Category
 | カラム名 | データ型 |
 |:--------|:--------|
 | id | int|
 | title | string |
-| user_id | int |
+| user_id | references |
 
 
 ## デプロイの方法
