@@ -10,7 +10,7 @@ Task.delete_all
 Category.delete_all
 User.delete_all
 
-User.create({password: "sample_pass", name: "sample_auth_user", sort_state: 0, admin: true})
+User.create({password: "sample_pass", name: "sample_auth_user", sort_state: 0, is_admin: true})
 User.create({password: "sample_pass", name: "sample_auth_user", sort_state: 0})
 Category.create({title: "sample_category1", user_id: User.first.id})
 Category.create({title: "sample_category2", user_id: User.first.id})
