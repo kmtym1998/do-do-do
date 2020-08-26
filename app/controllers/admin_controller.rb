@@ -64,7 +64,10 @@ class AdminController < ApplicationController
     check_nil(params[:name], "ユーザ名")
 
     user = User.find(params[:id])
-    if session[:error].blank? && user.authenticate(params[:password])
+
+    session[:error] = "パスワードが違います" if !user.authenticate(params[:password])
+
+    if session[:error].blank?
       user.name = params[:name]
       user.is_admin = params[:is_admin]
       user.password = params[:password]
