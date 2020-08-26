@@ -1,0 +1,7 @@
+div
+    -if @message.blank?
+        -@users.each do |user|
+            li = user.name
+    -else
+        h1 =@message
+        
