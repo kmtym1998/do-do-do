@@ -5,6 +5,11 @@ class AdminController < ApplicationController
 
     if user.is_admin
       @users = User.all
+
+      @task_count = {};
+      @users.each do |user|
+        @task_count[user.id] = Task.where(user_id: user.id).count
+      end 
     else
       @message = "権限がありません"
     end

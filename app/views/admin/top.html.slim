@@ -21,6 +21,7 @@ main
             th ユーザ名
             th パスワード(必須)
             th 管理者権限
+            th 保持タスク数
             -@users.each do |user|
                 tr
                     = form_with url: admin_edit_path, local: true do |f|
@@ -30,6 +31,7 @@ main
                         td = f.text_field :name, class: "input-user-edit", value: user.name
                         td = f.password_field :password, class: "input-user-edit", value: user.password
                         td = f.check_box  :is_admin, {checked: user.is_admin}, "true", "false"
+                        td = @task_count[user.id]
 
                         td = f.submit '更新', class: "submit-btn"
 
