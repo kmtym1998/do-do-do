@@ -7,9 +7,10 @@ class AdminController < ApplicationController
       @users = User.all
 
       @task_count = {};
+      user_ids = Task.all.pluck(:user_id)
       @users.each do |user|
-        @task_count[user.id] = Task.where(user_id: user.id).count
-      end 
+        @task_count[user.id] = user_ids.count(user.id)
+      end
     else
       @message = "権限がありません"
     end
