@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'admin/new'
   root to: 'home#top'
   post '/' => 'home#sort_tasks'
 
