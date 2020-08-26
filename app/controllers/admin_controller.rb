@@ -14,7 +14,7 @@ class AdminController < ApplicationController
     session[:error] = ""
     def check_nil(param, param_name)
       if param.blank?
-        session[:error] = "#{param_name}を入力してください"
+        session[:error] = "[ユーザ追加時のエラー]#{param_name}を入力してください"
       end
     end
 
@@ -46,6 +46,28 @@ class AdminController < ApplicationController
 
     redirect_to(admin_path)
   end
+
+  def edit
+    session[:error] = ""    
+    def check_nil(param, param_name)
+      if param.blank?
+        session[:error] = "[ユーザ編集時のエラー]#{param_name}を入力してください"
+      end
+    end
+
+    check_nil(params[:password], "パスワード")
+    check_nil(params[:name], "ユーザ名")
+
+    user = User.find(params[:id])
+    if session[:error].blank? && user.authenticate(params[:password])
+      user.name = params[:name]
+      user.is_admin = params[:is_admin]
+      user.password = params[:password]
+      user.save!
+    end
+    redirect_to(admin_path)
+  end
+  
   
   
 end

@@ -2,14 +2,14 @@ head
     h1 管理者画面
     h2 = "あなたのIDは#{session[:login]}です"
     -if session[:error].present?
-        h4 = session[:error]
+        h4.error-message = session[:error]
 
 
 main
     = form_with url: admin_new_path, local: true do |f|
         = f.text_field :name, class: "input-user", placeholder: "ユーザ名"
-        = f.text_field :password, class: "input-user", placeholder: "パスワード"
-        = f.text_field :password_confirm, class: "input-user", placeholder: "パスワード (確認用)"
+        = f.password_field :password, class: "input-user", placeholder: "パスワード"
+        = f.password_field :password_confirm, class: "input-user", placeholder: "パスワード (確認用)"
         = f.submit '完了', class: "submit-user"
 
     br/
@@ -19,16 +19,20 @@ main
         table
             th ユーザID
             th ユーザ名
+            th パスワード(必須)
             th 管理者権限
-            th 
             -@users.each do |user|
                 tr
-                    td = user.id
-                    td = user.name
-                    -if user.is_admin
-                        td あり
-                    -else
-                        td なし
+                    = form_with url: admin_edit_path, local: true do |f|
+                        td 
+                            = user.id 
+                            = f.hidden_field :id, value: user.id
+                        td = f.text_field :name, class: "input-user-edit", value: user.name
+                        td = f.password_field :password, class: "input-user-edit", value: user.password
+                        td = f.check_box  :is_admin, {checked: user.is_admin}, "true", "false"
+
+                        td = f.submit '更新', class: "submit-btn"
+
                     td = form_with url: admin_delete_path, local: true do |f|
                         = f.text_field :id , class: "hidden", value: user.id
                         = f.submit '削除', class: "delete-btn delete-task", "@click": "deleteTask"

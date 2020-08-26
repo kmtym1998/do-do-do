@@ -158,6 +158,10 @@
 
 
 /* /admin */
+.error-message{
+    color: tomato;
+    text-decoration: underline;
+}
 .input-user{
     display: block;
     padding: 10px;
@@ -167,6 +171,9 @@
     border: none;
     border-bottom: solid 1px #ccc;
     margin: 10px;
+}
+.input-user-edit{
+    height: 40px;
 }
 .submit-user{
     display: block;
@@ -190,4 +197,7 @@
     border-bottom: 2px solid rgb(65, 9, 65);
     transform: translate(0px, 5px);
     color: whitesmoke;
+}
+tr{
+    text-align: center;
 }

@@ -33,7 +33,7 @@ class HomeController < ApplicationController
     redirect_to(root_path) if session[:login].present?
   end
 
-  def auth    
+  def auth
     id = params[:id]
     user = User.find_by(id: id)
 
