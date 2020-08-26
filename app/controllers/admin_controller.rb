@@ -9,5 +9,43 @@ class AdminController < ApplicationController
       @message = "権限がありません"
     end
   end
+
+  def new
+    session[:error] = ""
+    def check_nil(param, param_name)
+      if param.blank?
+        session[:error] = "#{param_name}を入力してください"
+      end
+    end
+
+    password = params[:password]
+    password_confirm = params[:password_confirm]
+    session[:error] = "パスワードが確認用と一致しません" if password != password_confirm
+
+    check_nil(params[:password_confirm], "パスワード (確認用) ")
+    check_nil(params[:password], "パスワード")
+    check_nil(params[:name], "ユーザ名")
+
+
+    if session[:error].blank?
+      User.create({
+        password: password,
+        name: params[:name],
+        is_admin: false,
+        sort_state: 0
+      })
+    end
+    redirect_to(admin_path)
+  end
+  
+
+
+  def delete
+    user = User.find(params[:id])
+    user.destroy
+
+    redirect_to(admin_path)
+  end
+  
   
 end
