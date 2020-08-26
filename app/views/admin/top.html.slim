@@ -6,8 +6,7 @@ header
 
 
 main
-    h2
-        = link_to("タスク一覧", "../")
+    h2 = link_to("タスク一覧画面へ", "#{request.protocol}#{request.host}")
     = form_with url: logout_path, local: true do |f|
         = f.submit "ログアウト", class:"delete-btn delete-task"
     = form_with url: admin_new_path, local: true do |f|
@@ -41,7 +40,8 @@ main
 
                     td = form_with url: admin_delete_path, local: true do |f|
                         = f.text_field :id , class: "hidden", value: user.id
-                        = f.submit '削除', class: "delete-btn delete-task", "@click": "deleteTask"
+                        = f.submit '削除', class: "delete-btn delete-task"
+                    td = link_to("このユーザのタスクを見る", "#{request.protocol}#{request.host}/admin/user/#{user.id}/tasks")
 
     -else
         h1 =@message

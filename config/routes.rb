@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post 'admin/new' => 'admin#new'
   post 'admin/delete' => 'admin#delete'
   post 'admin/edit' => 'admin#edit'
+  get 'admin/user/:id/tasks' => 'admin#user_tasks'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

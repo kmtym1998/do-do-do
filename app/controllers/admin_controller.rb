@@ -4,12 +4,11 @@ class AdminController < ApplicationController
     user = User.find(session[:login])
 
     if user.is_admin
-      @users = User.all
+      @users = User.eager_load(:tasks).all
 
-      @task_count = {};
-      user_ids = Task.all.pluck(:user_id)
+      @task_count = {}
       @users.each do |user|
-        @task_count[user.id] = user_ids.count(user.id)
+        @task_count[user.id] = user.tasks.to_a.count
       end
     else
       @message = "権限がありません"
@@ -77,6 +76,11 @@ class AdminController < ApplicationController
     redirect_to(admin_path)
   end
   
-  
-  
+  def user_tasks
+    @tasks = Task.where(user_id: params[:id])
+    @user_name = User.find(params[:id]).name
+    if @tasks.count.zero?
+      @message = "このユーザにはタスクがありません"
+    end
+  end
 end
