@@ -1,4 +1,4 @@
-head
+header
     h1 管理者画面
     h2 = "あなたのIDは#{session[:login]}です"
     -if session[:error].present?
@@ -6,11 +6,15 @@ head
 
 
 main
+    h2
+        = link_to("タスク一覧", "../")
+    = form_with url: logout_path, local: true do |f|
+        = f.submit "ログアウト", class:"delete-btn delete-task"
     = form_with url: admin_new_path, local: true do |f|
         = f.text_field :name, class: "input-user", placeholder: "ユーザ名"
         = f.password_field :password, class: "input-user", placeholder: "パスワード"
         = f.password_field :password_confirm, class: "input-user", placeholder: "パスワード (確認用)"
-        = f.submit '完了', class: "submit-user"
+        = f.submit 'ユーザ追加', class: "submit-user"
 
     br/
     br/
