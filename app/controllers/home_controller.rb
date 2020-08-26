@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   def top
     redirect_to(login_path) if !session[:login]
 
-    if Category.where(user_id: session[:login]).count == 0
+    if Category.where(user_id: session[:login]).count.zero?
       Category.create(title: "sample", user_id: session[:login])
     end
 
