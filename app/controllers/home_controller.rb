@@ -6,7 +6,9 @@ class HomeController < ApplicationController
       Category.create(title: "sample", user_id: session[:login])
     end
 
-    @sort_state = User.find(session[:login]).sort_state
+    user = User.find(session[:login])
+    @sort_state = user.sort_state
+    @is_admin = user.is_admin
 
     order = case @sort_state
               when 0 then
