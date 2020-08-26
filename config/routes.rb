@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   root to: 'home#top'
-  get 'login' => 'home#login'
   post '/' => 'home#sort_tasks'
+
+  get 'login' => 'home#login'
+  post 'login' => 'home#auth'
+
+  post 'logout' => 'home#logout'
 
   post 'js/ajax_create', to: 'js#ajax_create'
   post 'js/ajax_edit', to: 'js#ajax_edit'

@@ -10,8 +10,12 @@ body
         header
             h2 = t 'greetings.hello'
             h2 = l(Time.current)
+            h2 = "あなたのIDは #{session[:login]}です"
 
         main
+            = form_with url: logout_path, local: true do |f|
+                = f.submit "ログアウト", class:"delete-btn delete-task"
+            
             h1 タスク一覧
 
             = form_with url: root_path do |f|
