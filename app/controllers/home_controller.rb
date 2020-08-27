@@ -1,25 +1,26 @@
 class HomeController < ApplicationController
   def top
-    redirect_to(login_path) if !session[:login]
-
-    if Category.where(user_id: session[:login]).count.zero?
-      Category.create(title: "sample", user_id: session[:login])
+    if !session[:login]
+      redirect_to(login_path)
+    else
+      if Category.where(user_id: session[:login]).count.zero?
+        Category.create(title: "sample", user_id: session[:login])
+      end
+  
+      user = User.find(session[:login])
+      @sort_state = user.sort_state
+      @is_admin = user.is_admin
+  
+      order = case @sort_state
+                when 0 then
+                  {deadline: :desc}
+                when 1 then
+                  {created_at: :desc}
+                when 2 then
+                  {updated_at: :desc}
+              end
+      @tasks = Task.where(user_id: session[:login]).order(order)
     end
-
-    user = User.find(session[:login])
-    @sort_state = user.sort_state
-    @is_admin = user.is_admin
-
-    order = case @sort_state
-              when 0 then
-                {deadline: :desc}
-              when 1 then
-                {created_at: :desc}
-              when 2 then
-                {updated_at: :desc}
-            end
-
-    @tasks = Task.where(user_id: session[:login]).order(order)
   end
 
   def sort_tasks
