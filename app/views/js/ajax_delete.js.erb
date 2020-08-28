@@ -1,6 +1,6 @@
-deleteTask('<%= "#{ @task_id }" %>');
+deleteTask('<%= "#{ @id }" %>');
 
-function deleteTask(task_id){
+function deleteTask(id){
     // Vueの嬉しさを全く活かさない書き方😞
     const taskElements = document.getElementsByClassName('task-container');
     console.log(taskElements.length);
@@ -8,7 +8,7 @@ function deleteTask(task_id){
     for(let i = 0; i < taskElements.length; i++){
         checkingId = taskElements[i].querySelector('span').textContent;
         
-        if(checkingId == task_id){
+        if(checkingId == id){
             taskElements[i].parentNode.removeChild(taskElements[i]);
             vm.displayFlashMessage('タスクを削除した！', 'success');
 

@@ -3,14 +3,18 @@ if('<%= "#{ @message }" %>'){
     messageArray = message.split(',');
     vm.displayValidationMessage(messageArray, 'edit', '#validation-message-edit');
 }else{
-    editTask(
-        '<%= "#{ @task.id }" %>',
-        '<%= "#{ @task.title }" %>',
-        '<%= "#{ @task.deadline }" %>',
-        '<%= "#{ @task.priority }" %>',
-        '<%= "#{ @task.state }" %>',
-        '<%= "#{ @task.memo }" %>'
-    );
+    <% if @task.present? %>
+        editTask(
+            '<%= "#{ @task.id }" %>',
+            '<%= "#{ @task.title }" %>',
+            '<%= "#{ @task.deadline }" %>',
+            '<%= "#{ @task.priority }" %>',
+            '<%= "#{ @task.state }" %>',
+            '<%= "#{ @task.memo }" %>'
+        );
+    <% elsif @category.present? %>
+        editCategory();
+    <% end %>
 }
 
 function editTask(task_id, title, deadline, priority, state, memo){
@@ -40,4 +44,8 @@ function editTask(task_id, title, deadline, priority, state, memo){
             return false;
         }
     }
+}
+
+function editCategory(){
+    vm.isShow.categoryTitle = !vm.isShow.categoryTitle;
 }
