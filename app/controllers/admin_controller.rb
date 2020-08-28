@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
   def top
-    redirect_to(login_path) if !session[:login]
+    return redirect_to(login_path) unless session[:login].present?
     user = User.find(session[:login])
 
     if user.is_admin
@@ -41,7 +41,7 @@ class AdminController < ApplicationController
 
 
   def delete
-    user = User.find(params[:id])
+    user = User.find(params[:id]).eager_load(:tasks)
     user.destroy
 
     redirect_to(admin_path)
