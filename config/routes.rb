@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root to: 'home#top'
   post '/' => 'home#sort_tasks'
+  get 'category/:id' => 'home#show_tasks'
 
   get 'login' => 'home#login'
   post 'login' => 'home#auth'

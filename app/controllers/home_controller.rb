@@ -1,6 +1,5 @@
 class HomeController < ApplicationController
   def top
-    
     return redirect_to(login_path) unless session[:login].present?
 
     if Category.where(user_id: session[:login]).count.zero?
@@ -19,7 +18,12 @@ class HomeController < ApplicationController
               when 2 then
                 {updated_at: :desc}
             end
-    @tasks = Task.where(user_id: session[:login]).order(order)
+    @categories = Category.where(user_id: session[:login])
+  end
+
+  def show_tasks
+    @category = Category.find(params[:id])
+    @tasks = Task.where(category_id: params[:id])
   end
 
   def sort_tasks

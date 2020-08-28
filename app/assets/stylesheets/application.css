@@ -20,7 +20,12 @@
  .validation-message{
      list-style: none;
  }
-.task-title{
+ .category-title-link{
+    text-decoration: none;
+    color: #333;
+    font-weight: bolder;
+ }
+.task-title, .category-title{
     list-style: none;
     font-size: 19px;
     background-color: #aaaa;
@@ -28,7 +33,7 @@
     margin: 5px 0 0 5px;
     border-radius: 10px;
 }
-.task-title:hover{
+.task-title:hover, .category-title:hover{
     opacity: 0.5;
 }
 .hidden{
