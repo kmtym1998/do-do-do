@@ -41,7 +41,7 @@ class AdminController < ApplicationController
 
 
   def delete
-    user = User.find(params[:id]).eager_load(:tasks)
+    user = User.eager_load(:tasks).find(params[:id])
     user.destroy
 
     redirect_to(admin_path)
