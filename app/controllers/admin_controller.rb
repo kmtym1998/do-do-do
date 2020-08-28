@@ -17,19 +17,14 @@ class AdminController < ApplicationController
 
   def new
     session[:error] = ""
-    def check_nil(param, param_name)
-      if param.blank?
-        session[:error] = "[ユーザ追加時のエラー]#{param_name}を入力してください"
-      end
-    end
 
     password = params[:password]
     password_confirm = params[:password_confirm]
     session[:error] = "パスワードが確認用と一致しません" if password != password_confirm
 
-    check_nil(params[:password_confirm], "パスワード (確認用) ")
-    check_nil(params[:password], "パスワード")
-    check_nil(params[:name], "ユーザ名")
+    check_nil(params[:password_confirm], "パスワード (確認用) ", "作成")
+    check_nil(params[:password], "パスワード", "作成")
+    check_nil(params[:name], "ユーザ名", "作成")
 
 
     if session[:error].blank?
@@ -53,15 +48,10 @@ class AdminController < ApplicationController
   end
 
   def edit
-    session[:error] = ""    
-    def check_nil(param, param_name)
-      if param.blank?
-        session[:error] = "[ユーザ編集時のエラー]#{param_name}を入力してください"
-      end
-    end
+    session[:error] = ""
 
-    check_nil(params[:password], "パスワード")
-    check_nil(params[:name], "ユーザ名")
+    check_nil(params[:password], "パスワード", "編集")
+    check_nil(params[:name], "ユーザ名", "編集")
 
     user = User.find(params[:id])
 
@@ -83,4 +73,9 @@ class AdminController < ApplicationController
       @message = "このユーザにはタスクがありません"
     end
   end
+
+  private
+    def check_nil(param, param_name, action_name)
+      session[:error] = "[ユーザ#{action_name}時のエラー]#{param_name}を入力してください" if param.blank?
+    end
 end
