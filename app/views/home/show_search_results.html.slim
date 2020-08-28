@@ -1,0 +1,18 @@
+
+h2 = link_to("←カテゴリ一覧へ", "#{request.protocol}#{request.host}/")
+h1 = "検索結果: #{params[:query]}"
+= form_with url: search_path, local: true do |f|
+    = f.text_field :query, class: "input-task-title", placeholder: "カテゴリの検索"
+    = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"
+
+div.validation-message.hidden#validation-message-create
+    li v-for="message in validationMessages.create" v-html="message"
+
+div#categories-container
+    -@categories.each do |category|
+        div.category-container
+            a class="category-title-link" href="#{request.protocol}#{request.host}/category/#{category.id}" 
+                | <li class='category-title'>#{category.title}</li>
+            = form_with url: js_ajax_delete_path, local: true do |f|
+                = f.text_field :category_id, class: "hidden", value: category.id
+                = f.submit '削除', class: "delete-btn delete-task", "@click": "deleteTask"

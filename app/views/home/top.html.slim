@@ -20,6 +20,11 @@ body
             
             h1 カテゴリ一覧
 
+
+            = form_with url: search_path, local: true do |f|
+                = f.text_field :query, class: "input-task-title", placeholder: "カテゴリの検索"
+                = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"
+
             = form_with url: js_ajax_create_path, local: true do |f|
                 = f.text_field :newCategoryTitle, class: "input-task-title", "v-model": "newCategoryTitle", placeholder: "カテゴリの追加"
                 = f.submit '完了', class: "submit-btn submit-task-title", "@click": "submitNewTask"

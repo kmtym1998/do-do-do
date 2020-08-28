@@ -61,4 +61,12 @@ class HomeController < ApplicationController
     redirect_to(login_path)
   end
   
+  def show_search_results
+    @categories = Category.where('title LIKE ?', "%#{params[:query]}%")
+  end
+
+  def search
+    redirect_to("#{request.protocol}#{request.host}/search/#{params[:query]}")
+  end
+
 end

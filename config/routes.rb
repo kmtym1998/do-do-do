@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root to: 'home#top'
   post '/' => 'home#sort_tasks'
   get 'category/:id' => 'home#show_tasks'
+  get 'search/:query' => 'home#show_search_results'
+  post 'search' => 'home#search'
 
   get 'login' => 'home#login'
   post 'login' => 'home#auth'
