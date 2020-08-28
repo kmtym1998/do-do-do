@@ -11,6 +11,8 @@ body
             h2 = t 'greetings.hello'
             h2 = l(Time.current)
             h2 = "あなたのIDは #{session[:login]}です"
+            -if @is_admin
+                h2 = link_to("管理者画面へ", "#{request.protocol}#{request.host}/admin")
 
         main
             = form_with url: logout_path, local: true do |f|

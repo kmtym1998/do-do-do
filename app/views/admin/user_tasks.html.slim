@@ -1,0 +1,34 @@
+div
+    h1 = "#{@user_name}さんのタスク一覧"
+    h2 = link_to("管理画面にもどる", "#{request.protocol}#{request.host}/admin") 
+    -@tasks.each do |task|
+        h2 = task.title
+        div
+            li = "ID: #{task.id}"
+            li = "締め切り:#{task.deadline}"
+            -case task.priority
+            -when 0
+                li = "優先度: 低"
+            -when 1
+                li = "優先度: 中"
+            -when 2
+                li = "優先度: 高"
+            -else
+                li = "優先度: 未設定"
+            
+            -case task.state
+            -when 0
+                li = "ステータス: 未着手"
+            -when 1
+                li = "ステータス: 着手"
+            -when 2
+                li = "ステータス: 完了"
+            -else
+                li = "ステータス: 未設定"
+
+            div
+                = task.memo
+            
+    
+    -if @message.present?
+        h2 = @message

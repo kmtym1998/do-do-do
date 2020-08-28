@@ -12,5 +12,11 @@ Rails.application.routes.draw do
   post 'js/ajax_delete', to: 'js#ajax_delete'
   post 'js/ajax_before_edit', to: 'js#ajax_before_edit'
 
+  get 'admin/' => 'admin#top'
+  post 'admin/new' => 'admin#new'
+  post 'admin/delete' => 'admin#delete'
+  post 'admin/edit' => 'admin#edit'
+  get 'admin/user/:id/tasks' => 'admin#user_tasks'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

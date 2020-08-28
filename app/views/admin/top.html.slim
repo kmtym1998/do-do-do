@@ -1,0 +1,47 @@
+header
+    h1 管理者画面
+    h2 = "あなたのIDは#{session[:login]}です"
+    -if session[:error].present?
+        h4.error-message = session[:error]
+
+
+main
+    h2 = link_to("タスク一覧画面へ", "#{request.protocol}#{request.host}")
+    = form_with url: logout_path, local: true do |f|
+        = f.submit "ログアウト", class:"delete-btn delete-task"
+    = form_with url: admin_new_path, local: true do |f|
+        = f.text_field :name, class: "input-user", placeholder: "ユーザ名"
+        = f.password_field :password, class: "input-user", placeholder: "パスワード"
+        = f.password_field :password_confirm, class: "input-user", placeholder: "パスワード (確認用)"
+        = f.submit 'ユーザ追加', class: "submit-user"
+
+    br/
+    br/
+
+    -if @message.blank?
+        table
+            th ユーザID
+            th ユーザ名
+            th パスワード(必須)
+            th 管理者権限
+            th 保持タスク数
+            -@users.each do |user|
+                tr
+                    = form_with url: admin_edit_path, local: true do |f|
+                        td 
+                            = user.id 
+                            = f.hidden_field :id, value: user.id
+                        td = f.text_field :name, class: "input-user-edit", value: user.name
+                        td = f.password_field :password, class: "input-user-edit", value: user.password
+                        td = f.check_box  :is_admin, {checked: user.is_admin}, "true", "false"
+                        td = @task_count[user.id]
+
+                        td = f.submit '更新', class: "submit-btn"
+
+                    td = form_with url: admin_delete_path, local: true do |f|
+                        = f.text_field :id , class: "hidden", value: user.id
+                        = f.submit '削除', class: "delete-btn delete-task"
+                    td = link_to("このユーザのタスクを見る", "#{request.protocol}#{request.host}/admin/user/#{user.id}/tasks")
+
+    -else
+        h1 =@message
