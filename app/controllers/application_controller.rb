@@ -9,14 +9,14 @@ class ApplicationController < ActionController::Base
 
     def render_404(exception = nil)
         if exception.present?
-            logger.info "Rendering 404 with exception: #{exception.message}"
+            logger.error "Rendering 404 with exception: #{exception.message}"
         end
         render template: "errors/404", status: 404, layout: 'application'
     end
 
     def render_500(exception = nil)
         if exception.present?
-            logger.info "Rendering 500 with exception: #{exception.message}"
+            logger.error "Rendering 500 with exception: #{exception.message}"
             @message = exception.message
         end
         render template: "errors/500", status: 500, layout: 'application'
