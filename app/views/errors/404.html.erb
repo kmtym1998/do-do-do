@@ -56,7 +56,10 @@
 </head>
 
 <body class="rails-default-error-page" style="background-image: url(https://www.pakutaso.com/shared/img/thumb/babyFTHG7907_TP_V.jpg); width: 100%;">
-  <!-- This file lives in public/404.html -->
-  <h1 style="font-size: 150px; color: #2E2F30; margin-top: 10px; background-color: #fdfdfd8b; width: 100%; height: auto;">404</h1>
+  <div style="background-color: #fdfdfd8b; width: 100%; height: auto; padding: 20px;">
+    <h1 style="font-size: 150px; color: #2E2F30; margin-top: -20px; margin-bottom: -20px;">404</h1>
+    <h3 style="margin-bottom: 10px"><%= @message %></h3>
+    <a href="<%= "#{request.protocol}#{request.host}/" %>">トップページへ</a>
+  </div>
 </body>
 </html>
