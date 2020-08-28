@@ -18,5 +18,6 @@ Rails.application.routes.draw do
   post 'admin/edit' => 'admin#edit'
   get 'admin/user/:id/tasks' => 'admin#user_tasks'
 
+  get '*path', to: 'application#render_404'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
